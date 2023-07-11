@@ -2,18 +2,16 @@ package com.github.PerseuAlves.kafkaexample.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class MainController {
 
     @Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
+    private KafkaTemplate<String, Object> kafkaTemplate;
 
-    @GetMapping("/producer/{message}")
-    public void producer(@PathVariable("message") String message) {
+    @PostMapping("/producer")
+    public <T> void producer(@RequestBody T message) {
         kafkaTemplate.send("ecommerce.client", message);
     }
 }
